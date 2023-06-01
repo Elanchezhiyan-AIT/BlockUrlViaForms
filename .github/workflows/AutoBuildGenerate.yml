@@ -23,9 +23,11 @@ jobs:
     
     - name: Clean Build
       run: dotnet clean BlockUrlViaForms.sln --configuration Release
+
     
     - name: Build MSI
-      run: dotnet msbuild /p:Configuration=Release BlockUrlViaForms.sln /t:Rebuild /verbosity:diagnostic
+      #run: dotnet msbuild /p:Configuration=Release BlockUrlViaForms.sln /t:Rebuild /verbosity:diagnostic'  
+      run: dotnet build BlockUrlViaForms.sln --configuration Release
       
     - name: Publish MSI artifact
       uses: actions/upload-artifact@v2
