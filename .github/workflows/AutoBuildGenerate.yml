@@ -20,9 +20,12 @@ jobs:
     
     - name: Restore NuGet packages
       run: dotnet restore BlockUrlViaForms.sln
-      
+    
+    - name: Clean Build
+      run: dotnet clean BlockUrlViaForms.sln --configuration Release
+    
     - name: Build MSI
-      run: dotnet msbuild /p:Configuration=Release BlockUrlViaForms.sln /t:Rebuild
+      run: dotnet msbuild /p:Configuration=Release BlockUrlViaForms.sln /t:Rebuild /verbosity:diagnostic
       
     - name: Publish MSI artifact
       uses: actions/upload-artifact@v2
