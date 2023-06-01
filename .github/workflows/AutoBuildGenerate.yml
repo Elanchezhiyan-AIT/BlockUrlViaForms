@@ -27,7 +27,7 @@ jobs:
     - name: Build MSI
       #run: dotnet msbuild /p:Configuration=Release BlockUrlViaForms.sln /t:Rebuild /verbosity:diagnostic'  
       #run: MSBuild /t:Build /p:Configuration=Release
-      run: dotnet msbuild /p:Configuration=Release /p:MSBuildSDKsPath="C:\Program Files\dotnet\sdk\6.0.408\Sdks"
+      run: dotnet msbuild /p:Configuration=Release
       
     - name: Publish MSI artifact
       uses: actions/upload-artifact@v2
