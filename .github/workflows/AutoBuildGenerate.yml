@@ -1,0 +1,31 @@
+name: Build MSI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x' # Replace with the desired .NET version
+    
+    - name: Restore NuGet packages
+      run: dotnet restore BlockUrlViaForms.sln
+      
+    - name: Build MSI
+      run: dotnet msbuild /p:Configuration=Release BlockUrlViaForms.sln /t:Rebuild
+      
+    - name: Publish MSI artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: MSI Package
+        path: AppSetup/AppSetup.msi
