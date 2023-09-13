@@ -16,6 +16,7 @@ namespace BlockUrlViaForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new BlockURL());
+            var test = DateTime.Now;
         }
     }
 }
