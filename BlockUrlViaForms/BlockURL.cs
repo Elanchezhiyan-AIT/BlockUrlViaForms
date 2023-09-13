@@ -1,26 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace BlockUrlViaForms
 {
     public partial class BlockURL : Form
     {
 
-        public string HostFileLocation = $@"{Environment.GetFolderPath(Environment.SpecialFolder.System)}\drivers\etc";
-        public string HostFileName = "hosts";
-        public string BackupFileExtension = ".bak";
-        public string Ipaddress = "127.0.0.1 ";
+        private readonly string _hostFileLocation = $@"{Environment.GetFolderPath(Environment.SpecialFolder.System)}\drivers\etc";
+        private readonly string _hostFileName = "hosts";
+        private readonly string _backupFileExtension = ".bak";
+        private readonly string _ipaddress = "127.0.0.1 ";
 
         public BlockURL()
         {
@@ -28,7 +24,7 @@ namespace BlockUrlViaForms
 
             try
             {
-                if (File.Exists(Path.Combine(HostFileLocation, HostFileName +""+ BackupFileExtension)))
+                if (File.Exists(Path.Combine(_hostFileLocation, _hostFileName +""+ _backupFileExtension)))
                 {
                     MessageBox.Show("Backup file already exists. No need to take backup");
                     button1.Enabled = false;
@@ -52,9 +48,9 @@ namespace BlockUrlViaForms
         {
             try
             {
-                if (File.Exists(Path.Combine(HostFileLocation, HostFileName)))
+                if (File.Exists(Path.Combine(_hostFileLocation, _hostFileName)))
                 {
-                    File.Copy(Path.Combine(HostFileLocation, HostFileName), Path.Combine(HostFileLocation, HostFileName + "" + BackupFileExtension));
+                    File.Copy(Path.Combine(_hostFileLocation, _hostFileName), Path.Combine(_hostFileLocation, _hostFileName + "" + _backupFileExtension));
                     MessageBox.Show("Host file backup process has been completed successfully");
                 }
                 else
@@ -70,31 +66,31 @@ namespace BlockUrlViaForms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(File.Exists(Path.Combine(HostFileLocation, HostFileName + "" + BackupFileExtension)))
+            if(File.Exists(Path.Combine(_hostFileLocation, _hostFileName + "" + _backupFileExtension)))
             {
                 MessageBox.Show("Backup host file exists!");
             }
 
-            if(File.Exists(Path.Combine(HostFileLocation, HostFileName)))
+            if(File.Exists(Path.Combine(_hostFileLocation, _hostFileName)))
             {
                 MessageBox.Show("Current host file exists!");
             }
 
             //AddSecurityPermission();
 
-            string[] backupHostsLines = File.ReadAllLines(Path.Combine(HostFileLocation, HostFileName + "" + BackupFileExtension));
-            string[] currentHostsLines = File.ReadAllLines(Path.Combine(HostFileLocation, HostFileName));
+            string[] backupHostsLines = File.ReadAllLines(Path.Combine(_hostFileLocation, _hostFileName + "" + _backupFileExtension));
+            string[] currentHostsLines = File.ReadAllLines(Path.Combine(_hostFileLocation, _hostFileName));
 
             var urlsToBlock = currentHostsLines.Except(backupHostsLines).ToArray();
 
             var hostsLines = currentHostsLines.Where(line => !urlsToBlock.Any(urls => line.Contains(urls) && line.StartsWith("#127.0.0.1"))).ToArray();
-            File.WriteAllLines(Path.Combine(HostFileLocation, HostFileName), hostsLines);
+            File.WriteAllLines(Path.Combine(_hostFileLocation, _hostFileName), hostsLines);
 
         }
 
         private void AddSecurityPermission()
         {
-            string hostFilePath = Path.Combine(HostFileLocation, HostFileName);
+            string hostFilePath = Path.Combine(_hostFileLocation, _hostFileName);
             string userName = Environment.UserName;
 
             FileSecurity fileSecurity = File.GetAccessControl(hostFilePath);
@@ -120,7 +116,7 @@ namespace BlockUrlViaForms
 
         private void btnSampleUrl_Click(object sender, EventArgs e)
         {
-            if (!File.Exists(Path.Combine(HostFileLocation, HostFileName + "" + BackupFileExtension)))
+            if (!File.Exists(Path.Combine(_hostFileLocation, _hostFileName + "" + _backupFileExtension)))
             {
                 MessageBox.Show("Please take backup of host file");
                 return;
@@ -128,15 +124,15 @@ namespace BlockUrlViaForms
 
             List<string> urlsToBeBlockedList = new List<string>()
             {
-                Ipaddress + "stackoverflow.com",
-                Ipaddress + "github.com",
-                Ipaddress + "www.facebook.com",
-                Ipaddress + "twitter.com"
+                _ipaddress + "stackoverflow.com",
+                _ipaddress + "github.com",
+                _ipaddress + "www.facebook.com",
+                _ipaddress + "twitter.com"
             };
 
             foreach (string urlToBeBlocked in urlsToBeBlockedList)
             {
-                using (var stream = new StreamWriter(Path.Combine(HostFileLocation, HostFileName), true, Encoding.Default))
+                using (var stream = new StreamWriter(Path.Combine(_hostFileLocation, _hostFileName), true, Encoding.Default))
                 {
                     stream.WriteLine(urlToBeBlocked);
                 }
