@@ -17,6 +17,7 @@ namespace BlockUrlViaForms
         private readonly string _hostFileName = "hosts";
         private readonly string _backupFileExtension = ".bak";
         private readonly string _ipaddress = "127.0.0.1 ";
+        private readonly DateTime _dateTime = DateTime.Now;
 
         public BlockURL()
         {
