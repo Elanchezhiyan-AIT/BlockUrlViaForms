@@ -19,6 +19,7 @@ namespace BlockUrlViaForms
         private readonly string _ipaddress = "127.0.0.1 ";
         private readonly DateTime _dateTime = DateTime.Now;
         private readonly DateTime _yesterdayDateTime = DateTime.Now.AddDays(-1);
+        private readonly DateTime _tomorrowDateTime = DateTime.Now.AddDays(1);
 
         public BlockURL()
         {
