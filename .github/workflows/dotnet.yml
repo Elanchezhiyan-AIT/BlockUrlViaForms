@@ -30,4 +30,4 @@ jobs:
 
       - name: Build Solution
         run: |
-          BlockUrlViaForms.exe BlockUrlViaForms.sln /p:platform="Any CPU" /p:configuration="Release"
+          Setup.exe BlockUrlViaForms.sln /p:platform="Any CPU" /p:configuration="Release"
