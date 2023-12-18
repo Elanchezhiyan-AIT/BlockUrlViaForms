@@ -26,10 +26,10 @@ jobs:
         run: cd $GITHUB_WORKSPACE
 
       - name: Clean Build
-        run: msbuild BlockUrlViaForms.sln /t:Clean
+        run: msbuild BlockUrlViaForms.sln /t:Clean /p:Configuration=Release
 
       - name: Build Solution
-        run: msbuild BlockUrlViaForms.sln /t:build
+        run: msbuild BlockUrlViaForms.sln /t:build /p:Configuration=Release
         
       - name: Rebuild Solution
-        run: msbuild BlockUrlViaForms.sln /t:rebuild
+        run: msbuild BlockUrlViaForms.sln /t:rebuild /p:Configuration=Release
