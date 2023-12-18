@@ -16,7 +16,7 @@ namespace BlockUrlViaForms
         private readonly string _hostFileLocation = $@"{Environment.GetFolderPath(Environment.SpecialFolder.System)}\drivers\etc";
         private readonly string _hostFileName = "hosts";
         private readonly string _backupFileExtension = ".bak";
-        private readonly string _ipaddress = "127.0.0.1 " ;
+        private readonly string _ipaddress = "127.0.0.1 ";
 
         public BlockURL()
         {
