@@ -25,9 +25,11 @@ jobs:
       - name: Navigate to Workspace
         run: cd $GITHUB_WORKSPACE
 
-      - name: clean packages
+      - name: Clean Build
         run: msbuild BlockUrlViaForms.sln /t:Clean
 
       - name: Build Solution
-        run: |
-          Setup.exe BlockUrlViaForms.sln /p:platform="Any CPU" /p:configuration="Release"
+        run: msbuild BlockUrlViaForms.sln /t:build
+        
+      - name: Rebuild Solution
+        run: msbuild BlockUrlViaForms.sln /t:rebuild
