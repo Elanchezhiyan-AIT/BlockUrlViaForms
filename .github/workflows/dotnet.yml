@@ -25,8 +25,8 @@ jobs:
       - name: Navigate to Workspace
         run: cd $GITHUB_WORKSPACE
 
-      - name: Restore Packages
-        run: nuget restore BlockUrlViaForms.sln
+      - name: clean packages
+        run: msbuild BlockUrlViaForms.sln /t:Clean
 
       - name: Build Solution
         run: |
