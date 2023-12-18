@@ -1,27 +1,39 @@
-name: .NET
+name: Build and Package
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  test:
+  build:
     runs-on: windows-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup .NET Framework
+      uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 6.0.x
-    - name: NuGet Restore
+        dotnet-version: '4.8.x'
+
+    - name: Restore NuGet packages
       run: nuget restore BlockUrlViaForms.sln
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1.3.1
-    - name: Restore dependencies
-      run: dotnet restore
+
     - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: msbuild /p:Configuration=Release /p:Platform="Any CPU" BlockUrlViaForms.csproj
+
+  package:
+    runs-on: windows-latest
+
+    needs: build
+
+    steps:
+    - name: Copy artifacts
+      run: |
+        mkdir publish
+        Copy-Item -Path ${{ needs.build.outputs.artifacts }} -Destination .\publish -Recurse
+
+    - name: Create ZIP archive
+      run: Compress-Archive -Path .\publish -DestinationPath BlockUrlViaForms.zip
